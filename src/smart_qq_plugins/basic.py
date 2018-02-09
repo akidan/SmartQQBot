@@ -22,13 +22,21 @@ REPLY_SUFFIX = (
 )
 
 
-@on_all_message(name='basic[callout]')
+@on_all_message(name='呼叫')
 def callout(msg, bot):
-    if "智障机器人" in msg.content:
+    if "小波" in msg.content:
         reply = bot.reply_msg(msg, return_function=True)
         logger.info("RUNTIMELOG " + str(msg.from_uin) + " calling me out, trying to reply....")
-        reply_content = "干嘛（‘·д·）" + random.choice(REPLY_SUFFIX)
-        reply(reply_content)
+        replyRandom = randint(0, 100)
+        if replyRandom < 10:
+            reply_content = "怎么啦（‘·д·）" + random.choice(REPLY_SUFFIX)
+            reply(reply_content)
+        elif replyRandom < 15:
+            reply_content = "我要看书去了（‘·д·）" + random.choice(REPLY_SUFFIX)
+            reply(reply_content)
+        elif replyRandom < 17:
+            reply_content = "WSXJJ今天请牛角了吗？没有（‘·д·）" + random.choice(REPLY_SUFFIX)
+            reply(reply_content)
 
 
 # =====复读插件=====
@@ -40,7 +48,7 @@ class Recorder(object):
 recorder = Recorder()
 
 
-@on_group_message(name='basic[repeat]')
+@on_group_message(name='复读机')
 def repeat(msg, bot):
     global recorder
     reply = bot.reply_msg(msg, return_function=True)
@@ -53,25 +61,14 @@ def repeat(msg, bot):
     recorder.msg_list.append(msg)
 
 
-@on_group_message(name='basic[三个问题]')
+@on_group_message(name='卖萌')
 def nick_call(msg, bot):
-    if "我是谁" == msg.content:
-        bot.reply_msg(msg, "你是{}({})!".format(msg.src_sender_card or msg.src_sender_name, msg.src_sender_id))
+    #if "!我是谁" == msg.content:
+    #    bot.reply_msg(msg, "你是{}({})!".format(msg.src_sender_card or msg.src_sender_name, msg.src_sender_id))
 
-    elif "我在哪" == msg.content:
-        bot.reply_msg(msg, "你在{name}({id})!".format(name=msg.src_group_name, id=msg.src_group_id))
+    #elif "!我在哪" == msg.content:
+    #    bot.reply_msg(msg, "你在{name}({id})!".format(name=msg.src_group_name, id=msg.src_group_id))
 
-    elif msg.content in ("我在干什么", "我在做什么"):
-        bot.reply_msg(msg, "你在调戏我!!")
-
-
-@on_discuss_message(name='basic[讨论组三个问题]')
-def discuss_three_questions(msg, bot):
-    if "我是谁" == msg.content:
-        bot.reply_msg(msg, "你是{}!".format(msg.src_sender_name))
-
-    elif "我在哪" == msg.content:
-        bot.reply_msg(msg, "你在{name}!".format(name=msg.src_discuss_name))
-
-    elif msg.content in ("我在干什么", "我在做什么"):
-        bot.reply_msg(msg, "你在调戏我!!")
+    #el
+    if "好吃" in msg.content or "想吃" in msg.content:
+        bot.reply_msg(msg, "人家最喜欢吃的是牛角~")

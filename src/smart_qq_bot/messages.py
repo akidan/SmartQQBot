@@ -16,6 +16,8 @@ C_FACE_PART = "cface"
 OFF_PIC_PLACEHOLDER = "[图片]"
 C_FACE_PLACEHOLDER = "[表情]"
 
+QQ_GROUP_ID = ""
+
 
 class QMessage(object):
 
@@ -143,7 +145,7 @@ class GroupMsg(QMessage):
         获取发送者真实QQ号
         """
         result_list = []
-        member_list = self.bot.search_group_members(self.src_group_id)
+        member_list = self.bot.search_group_members(QQ_GROUP_ID) #unfixed issue: self.src_group_id)
         target_info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
         for info in member_list:
             if info.get('n') == target_info.get('nick'):
