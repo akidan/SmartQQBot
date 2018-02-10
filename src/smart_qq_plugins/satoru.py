@@ -48,6 +48,7 @@ class Satoru(object):
             self.data[key] = []
         self.data[key].append(response)
         reply = "感谢"+nickname+"教我关于#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        logger.info(reply)
         return self.save(reply)
 
     def remove_rule(self, key):
@@ -56,6 +57,7 @@ class Satoru(object):
             reply = "已经遗忘#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
         else:
             reply = "没有找到#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        logger.info(reply)
         return self.save(reply)
 
     def match(self, key):
@@ -81,6 +83,9 @@ class Satoru(object):
             json.dump(self.data, f)
         logger.info("Satoru's data file saved.")
         return reply
+
+    def show_list(self):
+        return str(self.data)
 
 
 satoru = Satoru("./satoru.json")
@@ -110,3 +115,10 @@ def remove(msg, bot):
         response = satoru.remove_rule(result)
         if response:
             bot.reply_msg(msg, response)
+
+@on_private_message(name="知识库")
+def satorulist(msg, bot):
+    if msg.content == "知识库":
+        response = satoru.show_list()
+        print (response)
+        #bot.reply_msg(msg, response)
