@@ -60,6 +60,15 @@ class Satoru(object):
         print (self.data)
         if key in self.data:
             result = self.data[key]
+        exist = False
+        keylist = []
+        for d in self.data:
+            if d in key:
+                exist = True
+                keylist.append(d)
+        if exist:
+            keyword = random.choice(keylist)
+            result = self.data[keyword]
             res_list = result[randint(0, len(result) - 1)]
             return res_list[0]
             # next version
