@@ -436,9 +436,9 @@ class QQBot(object):
         if ret_code in (0, 116, 1202):
             self._last_pool_success = True
             if ret_code == 0:
-                if 'result' not in ret or len(ret['result']) == 0:
-                    logger.info("Pooling ends, no new message received.")
-                else:
+                if 'result' in ret and len(ret['result']) != 0:
+                    #logger.info("Pooling ends, no new message received.")
+                #else:
                     return ret['result']
             elif ret_code == 116:
                 self.ptwebqq = ret['p']

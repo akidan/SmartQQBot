@@ -11,8 +11,8 @@ from smart_qq_bot.signals import on_all_message, on_bot_inited, on_private_messa
 
 cmd_hello = re.compile(r"hello")
 cmd_list_plugin = re.compile(r"技能表")
-cmd_inactivate = re.compile(r"禁用技能\{(.*?)\}")
-cmd_activate = re.compile(r"开启技能\{(.*?)\}")
+cmd_inactivate = re.compile(r"禁用技能#(.+)")
+cmd_activate = re.compile(r"开启技能#(.+)")
 
 
 def do_activate(text):
@@ -37,7 +37,7 @@ def do_hello(text):
 
 def do_list_plugin(text):
     if re.match(cmd_list_plugin, text):
-        text = "技能一览(%s): %s\n激活技能(%s): %s" % (
+        text = "技能一览(%s): %s\n激活技能(%s): %s\n[开启/禁用]技能#技能名" % (
             len(list_handlers()),
             ", ".join(list(list_handlers())),
             len(list_active_handlers()),
@@ -66,3 +66,4 @@ def manage_tool(msg, bot):
         result = handler(msg.content)
         if result is not None:
             return bot.reply_msg(msg, result)
+

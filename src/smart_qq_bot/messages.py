@@ -18,7 +18,6 @@ C_FACE_PLACEHOLDER = "[表情]"
 
 QQ_GROUP_ID = ""
 
-
 class QMessage(object):
 
     def __init__(self, msg_dict, bot_instance):
