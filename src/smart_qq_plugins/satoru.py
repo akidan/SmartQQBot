@@ -47,17 +47,18 @@ class Satoru(object):
         if key not in self.data:
             self.data[key] = []
         self.data[key].append(response)
-        return self.save(key, nickname)
+        reply = "感谢"+nickname+"教我关于#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        return self.save(reply)
 
     def remove_rule(self, key):
         if key in self.data:
             del self.data[key]
-
-        self.save()
-        logger.info("key [%s] removed" % key)
+            reply = "已经遗忘#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        else:
+            reply = "没有找到#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        return self.save(reply)
 
     def match(self, key):
-        print (self.data)
         if key in self.data:
             result = self.data[key]
         exist = False
@@ -75,11 +76,11 @@ class Satoru(object):
             #return res_list[0]+"\n(感谢 "+res_list[2]+" 提供关于 "+reslist[0]+" 的信息)"
         return None
 
-    def save(self, key, nickname):
+    def save(self, reply):
         with open(self.data_file, "w") as f:
             json.dump(self.data, f)
         logger.info("Satoru's data file saved.")
-        return "感谢"+nickname+"教我关于#"+key+" 的知识" + random.choice(REPLY_SUFFIX)
+        return reply
 
 
 satoru = Satoru("./satoru.json")
@@ -106,4 +107,6 @@ def send_msg(msg, bot):
 def remove(msg, bot):
     result = satoru.is_remove(msg.content)
     if result:
-        satoru.remove_rule(result)
+        response = satoru.remove_rule(result)
+        if response:
+            bot.reply_msg(msg, response)
