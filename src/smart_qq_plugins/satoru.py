@@ -61,12 +61,13 @@ class Satoru(object):
         return self.save(reply)
 
     def match(self, key):
-        if key in self.data:
-            result = self.data[key]
+        match = False
         exist = False
         keylist = []
         for d in self.data:
-            if d in key:
+            regex = re.compile(d)
+            match = regex.search(key)
+            if match:
                 exist = True
                 keylist.append(d)
         if exist:

@@ -27,7 +27,7 @@ def callout(msg, bot):
     if "小波" in msg.content:
         reply = bot.reply_msg(msg, return_function=True)
         logger.info("RUNTIMELOG " + str(msg.from_uin) + " calling me out, trying to reply....")
-        replyRandom = randint(0, 100)
+        replyRandom = random.randint(0, 100)
         if replyRandom < 10:
             reply_content = "怎么啦（‘·д·）" + random.choice(REPLY_SUFFIX)
             reply(reply_content)

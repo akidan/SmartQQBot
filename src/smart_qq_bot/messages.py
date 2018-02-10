@@ -114,10 +114,13 @@ class GroupMsg(QMessage):
         """
         获取发送者群名片
         """
-        info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
-        if info:
-            card = info.get('card')
-            return card
+        try:
+            info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
+            if info:
+                card = info.get('card')
+                return card
+        except:
+            return "不愿意透露姓名的雷锋"
 
     @property
     def src_sender_name(self):
@@ -143,17 +146,20 @@ class GroupMsg(QMessage):
         """
         获取发送者真实QQ号
         """
-        result_list = []
-        member_list = self.bot.search_group_members(QQ_GROUP_ID) #unfixed issue: self.src_group_id)
-        target_info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
-        for info in member_list:
-            if info.get('n') == target_info.get('nick'):
-                result_list.append(str(info.get('u')))
-        if len(result_list) > 1:
-            raise IndexError('群内含有相同昵称的成员,获取真实QQ号失败')
-        if len(result_list) == 0:
-            return ""
-        return result_list[0]
+        try:
+            result_list = []
+            member_list = self.bot.search_group_members(QQ_GROUP_ID) #unfixed issue: self.src_group_id)
+            target_info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
+            for info in member_list:
+                if info.get('n') == target_info.get('nick'):
+                    result_list.append(str(info.get('u')))
+            if len(result_list) > 1:
+                raise IndexError('群内含有相同昵称的成员,获取真实QQ号失败')
+            if len(result_list) == 0:
+                return ""
+            return result_list[0]
+        except:
+            return "0";
         # qq_info = self.bot.get_group_member_info(str(self.group_code), self.send_uin)
 
         # return str(qq_info.get('nick'))
